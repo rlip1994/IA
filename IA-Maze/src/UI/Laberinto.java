@@ -57,10 +57,17 @@ public class Laberinto {
     return matriz;
   }
   
+  public int getFilas(){
+    return this.matriz.size();
+  }
+  
+  public int getColumnas(){
+    return this.matriz.get(0).size();
+  }
+  
   @Override
   public String toString(){
     String resultado = "";
-    System.out.print(matriz);
     for (int x = 0; x < matriz.size(); x++) {
       for (int y = 0; y < matriz.get(0).size(); y++) {
         resultado=resultado+matriz.get(x).get(y);

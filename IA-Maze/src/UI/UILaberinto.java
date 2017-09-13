@@ -5,17 +5,23 @@
  */
 package UI;
 
+import java.awt.Color;
+import java.awt.GridLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 /**
  *
  * @author Test
  */
 public class UILaberinto extends javax.swing.JFrame {
 
-  private static Laberinto laberinto;
   public UILaberinto(Laberinto laberinto) {
     this.laberinto = laberinto;
-    System.out.println(this.laberinto.toString());
     initComponents();
+    generarLayout();
+    generaBotonesMatriz();
+    
   }
 
   /**
@@ -27,30 +33,44 @@ public class UILaberinto extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    jPanel1 = new javax.swing.JPanel();
+    jPanelLaberinto = new javax.swing.JPanel();
+    jMenuBarLaberinto = new javax.swing.JMenuBar();
+    jMenu1 = new javax.swing.JMenu();
+    jMenu2 = new javax.swing.JMenu();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
-    jPanel1Layout.setHorizontalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 1574, Short.MAX_VALUE)
+    jPanelLaberinto.setAutoscrolls(true);
+    jPanelLaberinto.setPreferredSize(new java.awt.Dimension(800, 600));
+
+    javax.swing.GroupLayout jPanelLaberintoLayout = new javax.swing.GroupLayout(jPanelLaberinto);
+    jPanelLaberinto.setLayout(jPanelLaberintoLayout);
+    jPanelLaberintoLayout.setHorizontalGroup(
+      jPanelLaberintoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 800, Short.MAX_VALUE)
     );
-    jPanel1Layout.setVerticalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 970, Short.MAX_VALUE)
+    jPanelLaberintoLayout.setVerticalGroup(
+      jPanelLaberintoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 600, Short.MAX_VALUE)
     );
+
+    jMenu1.setText("File");
+    jMenuBarLaberinto.add(jMenu1);
+
+    jMenu2.setText("Edit");
+    jMenuBarLaberinto.add(jMenu2);
+
+    setJMenuBar(jMenuBarLaberinto);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(jPanelLaberinto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(jPanelLaberinto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
     );
 
     pack();
@@ -91,7 +111,52 @@ public class UILaberinto extends javax.swing.JFrame {
     });
   }
 
+  private void generaBotonesMatriz() {
+    int filas = this.laberinto.getFilas();
+    int columnas = this.laberinto.getColumnas();
+    boolean img;
+    for (int x = 0; x < filas; x++) {
+      for (int y = 0; y < columnas; y++) {
+        img = false;
+        if (this.laberinto.getMatriz().get(x).get(y) == 1) {
+
+          img = !img;
+        }
+        generarBoton(img,x,y);
+      }
+
+    }
+  }
+
+
+
+  private void generarLayout() {
+    GridLayout layout = new GridLayout(this.laberinto.getFilas(), this.laberinto.getColumnas(), 0, 0);
+    this.jPanelLaberinto.setLayout(layout);
+  }
+
+  private void generarBoton(boolean img,int fila,int columna) {
+    JButton boton = new JButton();
+    boton.setBorder(null);
+    boton.setBorderPainted(false);
+    boton.setBackground(Color.DARK_GRAY);
+    boton.setName(String.valueOf(fila)+"-"+String.valueOf(columna));
+    boton.setBounds(imagenPared.getIconHeight(), imagenPared.getIconWidth(), imagenPared.getIconWidth(), imagenPared.getIconHeight());
+    if (img) {
+      boton.setIcon(imagenPared);
+    }
+    
+    jPanelLaberinto.add(boton);
+  }
+  
+ 
+  
+  ImageIcon imagenPared = new ImageIcon(this.getClass().getResource("/Img/pared.PNG"));
+  private static Laberinto laberinto;
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JPanel jPanel1;
+  private javax.swing.JMenu jMenu1;
+  private javax.swing.JMenu jMenu2;
+  private javax.swing.JMenuBar jMenuBarLaberinto;
+  private javax.swing.JPanel jPanelLaberinto;
   // End of variables declaration//GEN-END:variables
 }
