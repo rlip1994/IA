@@ -35,6 +35,7 @@ public class UIGenerador extends javax.swing.JFrame {
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     jTextAreaIngresaLaberinto.setColumns(20);
+    jTextAreaIngresaLaberinto.setFont(new java.awt.Font("Monospaced", 0, 36)); // NOI18N
     jTextAreaIngresaLaberinto.setRows(5);
     jScrollPane1.setViewportView(jTextAreaIngresaLaberinto);
 
@@ -81,7 +82,6 @@ public class UIGenerador extends javax.swing.JFrame {
 
   private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
     Laberinto lab = new Laberinto(jTextAreaIngresaLaberinto.getText());
-    System.out.println(lab.toString());
     UILaberinto uilab= new UILaberinto(lab);
     uilab.setVisible(true);
     this.dispose();

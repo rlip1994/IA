@@ -27,8 +27,7 @@ public class pruebas {
             + "+-+-+-+-+-+");
 
    
-    
-        System.out.print(lab.toString());
+
    
 
   } //Cierre del main
