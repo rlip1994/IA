@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+
 /**
  *
  * @author Test
@@ -145,13 +146,11 @@ public class UILaberinto extends javax.swing.JFrame {
     if (img) {
       boton.setIcon(imagenPared);
     }
-    
+   
     jPanelLaberinto.add(boton);
   }
   
- 
-  
-  ImageIcon imagenPared = new ImageIcon(this.getClass().getResource("/Img/pared.PNG"));
+  ImageIcon imagenPared = new ImageIcon(this.getClass().getResource("Img/pared.PNG"));
   private static Laberinto laberinto;
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JMenu jMenu1;
