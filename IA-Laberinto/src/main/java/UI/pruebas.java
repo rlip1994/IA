@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package UI;
 
-import java.util.ArrayList;
+import Laberinto.Laberinto;
+import Personajes.Persona;
+import com.google.common.eventbus.EventBus;
 
-/**
- *
- * @author Test
- */
+
 public class pruebas {
 
   public static void main(String[] args) {
@@ -26,9 +21,13 @@ public class pruebas {
             + "|          \n"
             + "+-+-+-+-+-+");
 
-   
-
-   
+   Persona personaJr = new Persona();
+        
+  
+    EventBus EventBusJr = new EventBus();
+    EventBusJr.register(personaJr);
+    
+    EventBusJr.post("Iniciar");
 
   } //Cierre del main
 

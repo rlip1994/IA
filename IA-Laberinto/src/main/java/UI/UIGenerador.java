@@ -5,6 +5,8 @@
  */
 package UI;
 
+import Laberinto.Laberinto;
+
 /**
  *
  * @author Test

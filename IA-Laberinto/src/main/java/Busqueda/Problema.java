@@ -68,21 +68,25 @@ public class Problema {
     this.metas = metas;
   }
 
-
-  public boolean pruebaMeta(Nodo nodo){
+  public boolean pruebaMeta(Nodo nodo) {
     return metas.contains(nodo.getEstado());
   }
+
+  public ArrayList<Integer> acciones(Nodo nodo) {
+    ArrayList<Integer> vecinos = new ArrayList<Integer>();
+    for (int i = 0; i < vertices.size(); i++) {
+      //vertices.get(i).
+      //vecinos.add()
+    }
+
+    return new ArrayList<Integer>();
+            /**
+             * def actions(node:Node) : Seq[Int] = edges.getOrElse(node.state, Seq.empty).toSeq*
+             */
   
-  public void acciones(Nodo nodo){
-    /**def actions
-    (node:
-    Node
-    ) : Seq[Int] = edges.getOrElse(node.state, Seq.empty).toSeq**/
   }
-  
-  public int resultado(Nodo padre, int accion){
+
+  public int resultado(Nodo padre, int accion) {
     return accion;
   }
-  
-
 }
