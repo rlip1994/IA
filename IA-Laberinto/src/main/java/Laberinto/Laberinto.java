@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UI;
+package Laberinto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +16,7 @@ import java.util.List;
 public class Laberinto {
 
   private ArrayList<ArrayList<Integer>> matriz = new ArrayList<ArrayList<Integer>>();
+  
 
   public Laberinto(String laberintoAscii) {
     GeneraLaberinto(laberintoAscii);

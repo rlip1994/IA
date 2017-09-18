@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Laberinto.Laberinto;
 import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
