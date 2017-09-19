@@ -1,14 +1,12 @@
 
 package Personajes;
 
+import BusEvento.BusEvento;
 import PaqueteFSM.Accion;
-import UI.pruebas;
 import com.google.common.eventbus.Subscribe;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.statefulj.fsm.FSM;
 import org.statefulj.fsm.TooBusyException;
 import org.statefulj.fsm.model.Action;
@@ -25,7 +23,7 @@ public class Persona {
   public Persona()
   {
     nombre = UUID.randomUUID().toString();
-    
+    BusEvento.getBus().register(this);
     //Eventos
     String pausar = "Pausar";
     String iniciar = "Iniciar";

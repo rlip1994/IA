@@ -5,9 +5,19 @@
  */
 package Laberinto;
 
+import BusEvento.BusEvento;
+import PaqueteFSM.Accion;
+import com.google.common.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
+import org.statefulj.fsm.FSM;
+import org.statefulj.fsm.TooBusyException;
+import org.statefulj.fsm.model.Action;
+import org.statefulj.fsm.model.impl.StateImpl;
+import org.statefulj.persistence.memory.MemoryPersisterImpl;
 
 /**
  *
@@ -16,10 +26,58 @@ import java.util.List;
 public class Laberinto {
 
   private ArrayList<ArrayList<Integer>> matriz = new ArrayList<ArrayList<Integer>>();
+  private String nombre;
+  private FSM maquinaDeEstado;
   
 
   public Laberinto(String laberintoAscii) {
+    nombre = UUID.randomUUID().toString();
+    BusEvento.getBus().register(this);
     GeneraLaberinto(laberintoAscii);
+    
+    //Eventos
+    String pausar = "Pausar";
+    String iniciar = "Iniciar";
+    String actualiza = "Actualiza";
+
+
+    //Estados
+
+    org.statefulj.fsm.model.State<Laberinto> actualizado = new StateImpl<Laberinto>("Actualiza");
+    org.statefulj.fsm.model.State<Laberinto> detenido = new StateImpl<Laberinto>("Pausa");
+    org.statefulj.fsm.model.State<Laberinto> inicio = new StateImpl<Laberinto>("Iniciar");
+
+
+    //Acciones
+
+    Action<Laberinto> iniciarAccion = new Accion<Laberinto>(iniciar);
+    Action<Laberinto> pausarAccion = new Accion<Laberinto>(pausar);
+    Action<Laberinto> actualizaAccion = new Accion<Laberinto>(actualiza);
+
+
+  //Persister
+    List<org.statefulj.fsm.model.State<Laberinto>> estados = new LinkedList<org.statefulj.fsm.model.State<Laberinto>>();
+    MemoryPersisterImpl<Laberinto> persistidor;
+    
+    //Transiciones
+    movimiento.addTransition(pausar, detenido, pausarAccion);
+    movimiento.addTransition(iniciar, movimiento, iniciarAccion);
+
+    detenido.addTransition(pausar, detenido, pausarAccion);
+    detenido.addTransition(iniciar, movimiento, iniciarAccion);
+
+
+
+    //Persister
+    estados.add(movimiento);
+    estados.add(detenido);
+   
+
+    persistidor = new MemoryPersisterImpl<Laberinto>(estados, detenido);
+    
+    maquinaDeEstado = new FSM("Laberinto FSM", persistidor);
+    
+    
   }
 
   private void GeneraLaberinto(String laberintoAscii) {
@@ -64,6 +122,16 @@ public class Laberinto {
   
   public int getColumnas(){
     return this.matriz.get(0).size();
+  }
+  
+  @Subscribe
+  public void recibirMensaje(String pMensaje)
+  {
+    try{
+      maquinaDeEstado.onEvent(this, pMensaje);
+    } catch (TooBusyException ex) {
+      System.out.println(ex.toString());
+    }
   }
   
   @Override
