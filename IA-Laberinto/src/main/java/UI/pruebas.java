@@ -9,17 +9,7 @@ import com.google.common.eventbus.EventBus;
 public class pruebas {
 
   public static void main(String[] args) {
-    Laberinto lab = new Laberinto("+-+-+-+-+-+\n"
-            + "  |   |   |\n"
-            + "+ + + + + +\n"
-            + "|   | | | |\n"
-            + "+-+-+ + + +\n"
-            + "|   |   | |\n"
-            + "+-+ + +-+ +\n"
-            + "|   |   | |\n"
-            + "+ +-+-+-+ +\n"
-            + "|          \n"
-            + "+-+-+-+-+-+");
+    Laberinto lab = new Laberinto();
 
    Persona personaJr = new Persona();
         

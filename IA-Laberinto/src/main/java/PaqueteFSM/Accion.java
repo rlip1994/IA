@@ -25,7 +25,7 @@ public class Accion<T> implements Action<T>{
   public void execute(T pPersona, String pEvento, Object... os) throws RetryException {
     switch(nombre){
       case "Iniciar":
-        empezarACaminar(pPersona,pEvento,os);
+        empezarAIniciar(pPersona,pEvento,os);
         break;
         
       case "Pausar":
@@ -35,11 +35,15 @@ public class Accion<T> implements Action<T>{
       case "Ganar":
         empezarAGanar(pPersona,pEvento,os);
         break;
+        
+      case "Actualizar":
+        empezarAActualizar(pPersona, pEvento, os);
+        break;
     }      
   }
   
   
-  private void empezarACaminar(T stateful, String event, Object[] args){
+  private void empezarAIniciar(T stateful, String event, Object[] args){
     System.out.println("Caminando : " + nombre);
   }
   
@@ -49,6 +53,10 @@ public class Accion<T> implements Action<T>{
   
   private void empezarAGanar(T stateful, String event, Object[] args){
     System.out.println("Ganado : " + nombre);
+  }
+  
+  private void empezarAActualizar(T stateful, String event, Object[] args){
+    System.out.println("Actualizado : " + nombre);
   }
          
 }
