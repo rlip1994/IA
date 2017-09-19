@@ -18,12 +18,10 @@ import javax.swing.JButton;
  */
 public class UILaberinto extends javax.swing.JFrame {
 
-  public UILaberinto(Laberinto laberinto) {
-    this.laberinto = laberinto;
+  public UILaberinto() {
     initComponents();
     generarLayout();
     generaBotonesMatriz();
-    
   }
 
   /**
@@ -108,7 +106,7 @@ public class UILaberinto extends javax.swing.JFrame {
     /* Create and display the form */
     java.awt.EventQueue.invokeLater(new Runnable() {
       public void run() {
-        new UILaberinto(laberinto).setVisible(true);
+        new UILaberinto().setVisible(true);
       }
     });
   }

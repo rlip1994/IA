@@ -8,6 +8,10 @@ package Laberinto;
 import BusEvento.BusEvento;
 import PaqueteFSM.Accion;
 import com.google.common.eventbus.Subscribe;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -28,60 +32,58 @@ public class Laberinto {
   private ArrayList<ArrayList<Integer>> matriz = new ArrayList<ArrayList<Integer>>();
   private String nombre;
   private FSM maquinaDeEstado;
-  
 
-  public Laberinto(String laberintoAscii) {
+  public Laberinto() {
     nombre = UUID.randomUUID().toString();
     BusEvento.getBus().register(this);
-    GeneraLaberinto(laberintoAscii);
-    
+   
+
     //Eventos
     String pausar = "Pausar";
     String iniciar = "Iniciar";
     String actualiza = "Actualiza";
 
-
     //Estados
-
     org.statefulj.fsm.model.State<Laberinto> actualizado = new StateImpl<Laberinto>("Actualiza");
     org.statefulj.fsm.model.State<Laberinto> detenido = new StateImpl<Laberinto>("Pausa");
     org.statefulj.fsm.model.State<Laberinto> inicio = new StateImpl<Laberinto>("Iniciar");
 
-
     //Acciones
-
     Action<Laberinto> iniciarAccion = new Accion<Laberinto>(iniciar);
     Action<Laberinto> pausarAccion = new Accion<Laberinto>(pausar);
     Action<Laberinto> actualizaAccion = new Accion<Laberinto>(actualiza);
 
-
-  //Persister
+    //Persister
     List<org.statefulj.fsm.model.State<Laberinto>> estados = new LinkedList<org.statefulj.fsm.model.State<Laberinto>>();
     MemoryPersisterImpl<Laberinto> persistidor;
-    
+
     //Transiciones
-    movimiento.addTransition(pausar, detenido, pausarAccion);
-    movimiento.addTransition(iniciar, movimiento, iniciarAccion);
+    actualizado.addTransition(actualiza, actualizado, actualizaAccion);
+    actualizado.addTransition(iniciar, actualizado, actualizaAccion);
+    actualizado.addTransition(pausar, detenido, pausarAccion);
 
+    detenido.addTransition(actualiza, detenido, pausarAccion);
+    detenido.addTransition(iniciar, actualizado, actualizaAccion);
     detenido.addTransition(pausar, detenido, pausarAccion);
-    detenido.addTransition(iniciar, movimiento, iniciarAccion);
 
-
+    inicio.addTransition(iniciar, actualizado, iniciarAccion);
+    inicio.addTransition(actualiza, inicio, pausarAccion);
+    inicio.addTransition(pausar, detenido, pausarAccion);
 
     //Persister
-    estados.add(movimiento);
+    estados.add(inicio);
+    estados.add(actualizado);
+
     estados.add(detenido);
-   
 
     persistidor = new MemoryPersisterImpl<Laberinto>(estados, detenido);
-    
+
     maquinaDeEstado = new FSM("Laberinto FSM", persistidor);
-    
-    
+
   }
 
-  private void GeneraLaberinto(String laberintoAscii) {
-    ArrayList<String> matrizAscii = (ArrayList<String>) StringALista(laberintoAscii);
+  public void GeneraLaberinto(String laberintoAscii) {
+    ArrayList<String> matrizAscii = (ArrayList<String>) stringALista(laberintoAscii);
     ArrayList<Integer> fila = new ArrayList<Integer>();
     for (int i = 0; i < matrizAscii.size(); i++) {
 
@@ -104,7 +106,34 @@ public class Laberinto {
 
   }
 
-  private List<String> StringALista(String laberintoAscii) {
+  public void ponerPersona() {
+    boolean flag = true;
+    while (flag) {
+      int fila = (int) (Math.random() * matriz.size()) + 1;
+      int columna = (int) (Math.random() * matriz.get(0).size()) + 1;
+      if (matriz.get(fila).get(columna) == 0) {
+        matriz.get(fila).add(columna, 9);
+        flag = false;
+      }
+    }
+
+  }
+
+  public String cargarArchivo(String ubicacion) throws FileNotFoundException, IOException {
+    String cadena;
+    String resultado="";
+    FileReader f = new FileReader(ubicacion);
+    BufferedReader b = new BufferedReader(f);
+    while ((cadena = b.readLine()) != null) {
+      resultado=resultado+cadena;
+      
+    }
+    b.close();
+    
+    return resultado;
+  }
+
+  private List<String> stringALista(String laberintoAscii) {
     return new ArrayList<String>(Arrays.asList(laberintoAscii.split("")));
   }
 
@@ -115,33 +144,32 @@ public class Laberinto {
   public ArrayList<ArrayList<Integer>> getMatriz() {
     return matriz;
   }
-  
-  public int getFilas(){
+
+  public int getFilas() {
     return this.matriz.size();
   }
-  
-  public int getColumnas(){
+
+  public int getColumnas() {
     return this.matriz.get(0).size();
   }
-  
+
   @Subscribe
-  public void recibirMensaje(String pMensaje)
-  {
-    try{
+  public void recibirMensaje(String pMensaje) {
+    try {
       maquinaDeEstado.onEvent(this, pMensaje);
     } catch (TooBusyException ex) {
       System.out.println(ex.toString());
     }
   }
-  
+
   @Override
-  public String toString(){
+  public String toString() {
     String resultado = "";
     for (int x = 0; x < matriz.size(); x++) {
       for (int y = 0; y < matriz.get(0).size(); y++) {
-        resultado=resultado+matriz.get(x).get(y);
+        resultado = resultado + matriz.get(x).get(y);
       }
-      resultado=resultado+"\n";
+      resultado = resultado + "\n";
     }
     return resultado;
   }
