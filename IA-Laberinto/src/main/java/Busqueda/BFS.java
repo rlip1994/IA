@@ -17,18 +17,10 @@ public class BFS {
   private int Cost = 6;
   
 
-  /**
-    * Definicion del problema
-    *
-    * @param n nodos
-    * @param m profundidad
-    * @param edges vertices en ambas direcciones
-    * @param start nodo de inicio
-    * @param goals todos los nodos menos el origen. Se puede eliminar en favor de solamente no visitar el start.
-    */
+ 
   public Nodo nodoHijo(Problema problema, Nodo padre, int accion){
-    Nodo nodoBebe = new Nodo(problema.resultado(padre, accion),padre.getCosto()+this.Cost);
-    return nodoBebe;
+   // Nodo nodoBebe = new Nodo(problema.resultado(padre, accion),padre.getCosto()+this.Cost);
+    return null; //nodoBebe;
   }
 
   public ArrayList<Integer> breadthFirstSearch(Problema problema){

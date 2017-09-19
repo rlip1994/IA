@@ -6,6 +6,7 @@
 package Busqueda;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -16,13 +17,13 @@ public class Problema {
 
   private int n;
   private int m;
-  private Map vertices;
+  private Map<Integer, ArrayList<Integer>> vertices;
   private int inicio;
   private ArrayList<Integer> metas;
 
-  public Problema(int n, int m, Map vertices, int inicio, ArrayList<Integer> metas) {
-    this.n = n;
-    this.m = m;
+  public Problema(int n, int m, Map<Integer, ArrayList<Integer>> vertices, int inicio, ArrayList<Integer> metas) {
+    this.n = n; //cantidad de nodos
+    this.m = m; //cantidad de vertices
     this.vertices = vertices;
     this.inicio = inicio;
     this.metas = metas;
@@ -68,25 +69,20 @@ public class Problema {
     this.metas = metas;
   }
 
-  public boolean pruebaMeta(Nodo nodo) {
+  public boolean esMeta(Nodo nodo) {
     return metas.contains(nodo.getEstado());
   }
 
-  public ArrayList<Integer> acciones(Nodo nodo) {
-    ArrayList<Integer> vecinos = new ArrayList<Integer>();
-    for (int i = 0; i < vertices.size(); i++) {
-      //vertices.get(i).
-      //vecinos.add()
-    }
+  public ArrayList<Integer> getVertices(int nodo) {
+    if (!vertices.containsKey (nodo)) {
+            return new ArrayList<Integer> (); //Return an empty list
+        }
 
-    return new ArrayList<Integer>();
-            /**
-             * def actions(node:Node) : Seq[Int] = edges.getOrElse(node.state, Seq.empty).toSeq*
-             */
+        return vertices.get(nodo);
+  }
   
-  }
-
-  public int resultado(Nodo padre, int accion) {
-    return accion;
-  }
+  
+  
 }
+
+
